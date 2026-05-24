@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/errors/failures.dart';
 import '../../../../../shared/models/pagination/pagination_params.dart';
-import '../../../domain/entities/product_entity.dart';
+import '../../../domain/entities/product/product_entity.dart';
 import '../../../domain/usecases/get_product_usecase.dart';
 import 'product_state.dart';
 
