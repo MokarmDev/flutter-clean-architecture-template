@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../generated/locale_keys.g.dart';
-import '../../../../shared/widgets/language_toggle_widget.dart';
-import '../../../../shared/widgets/loading_widget.dart';
-import '../../../../shared/widgets/no_data_found_widget.dart';
-import '../../../../shared/widgets/theme_toggle_widget.dart';
-import '../manager/product/product_cubit.dart';
-import '../manager/product/product_state.dart';
+import '../../../../../generated/locale_keys.g.dart';
+import '../../../../../shared/widgets/language_toggle_widget.dart';
+import '../../../../../shared/widgets/loading_widget.dart';
+import '../../../../../shared/widgets/no_data_found_widget.dart';
+import '../../../../../shared/widgets/theme_toggle_widget.dart';
+import '../../manager/product/product_cubit.dart';
+import '../../manager/product/product_state.dart';
 import 'product_card.dart';
 
 class ProductGridView extends StatefulWidget {
