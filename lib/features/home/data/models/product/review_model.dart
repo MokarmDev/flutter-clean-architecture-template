@@ -1,4 +1,4 @@
-import '../../../domain/entities/product_entity.dart';
+import '../../../domain/entities/product/product_entity.dart';
 
 class ReviewModel extends ReviewEntity {
   const ReviewModel({
