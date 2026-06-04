@@ -1,0 +1,26 @@
+{
+    "app_name":"اسم التطبيق",
+    "authentication": {
+        "login": "تسجيل الدخول",
+        "register": "تسجيل حساب جديد",
+        "forgot_password": "نسيت كلمة المرور",
+        "reset_password": "إعادة تعيين كلمة المرور",
+        "verify_code": "التحقق من الرمز",
+        "phone_number": "رقم الهاتف",
+        "password": "كلمة المرور",
+        "confirm_password": "تأكيد كلمة المرور",
+        "code": "الرمز",
+        "send_code": "إرسال الرمز",
+        "verify": "تحقق",
+        "login_with_phone": "تسجيل الدخول برقم الهاتف",
+        "login_with_email": "تسجيل الدخول بالبريد الإلكتروني",
+        "login_with_google": "تسجيل الدخول باستخدام جوجل",
+        "login_with_facebook": "تسجيل الدخول باستخدام فيسبوك",
+        "login_with_apple": "تسجيل الدخول باستخدام آبل"
+    },
+    "navigation": {
+        "home": "الرئيسية",
+        "cart": "السلة",
+        "profile": "الملف الشخصي"
+    }
+}

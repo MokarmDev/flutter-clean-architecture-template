@@ -1,0 +1,26 @@
+{
+    "app_name": "App Name",
+    "authentication": {
+        "login": "Login",
+        "register": "Register",
+        "forgot_password": "Forgot Password",
+        "reset_password": "Reset Password",
+        "verify_code": "Verify Code",
+        "phone_number": "Phone Number",
+        "password": "Password",
+        "confirm_password": "Confirm Password",
+        "code": "Code",
+        "send_code": "Send Code",
+        "verify": "Verify",
+        "login_with_phone": "Login with Phone",
+        "login_with_email": "Login with Email",
+        "login_with_google": "Login with Google",
+        "login_with_facebook": "Login with Facebook",
+        "login_with_apple": "Login with Apple"
+    },
+    "navigation": {
+        "home": "Home",
+        "cart": "Cart",
+        "profile": "Profile"
+    }
+}

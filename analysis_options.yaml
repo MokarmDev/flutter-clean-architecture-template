@@ -1,0 +1,45 @@
+include: package:flutter_lints/flutter.yaml
+
+linter:
+  rules:
+    # Prefer single quotes for consistency
+    prefer_single_quotes: true
+
+    # Avoid using print
+    avoid_print: true
+
+    # Avoid empty catch blocks
+    empty_catches: true
+
+    # Prefer const constructors where possible
+    prefer_const_constructors: true
+
+    # Prefer final for variables that are not reassigned
+    prefer_final_locals: true
+    prefer_final_fields: true
+
+    # Avoid redundant null checks
+    unnecessary_null_checks: true
+
+    # Use const for immutable widgets
+    prefer_const_literals_to_create_immutables: true
+
+    # Avoid reassigning parameters
+    parameter_assignments: false
+
+    # Prefer relative imports for files in lib/
+    prefer_relative_imports: true
+
+    # For catching unused variables, parameters, imports
+    unnecessary_this: true
+
+dart_code_metrics:
+  extends:
+    - recommended
+analyzer:
+  exclude:
+    - 'bricks/**'
+  errors:
+    prefer_const_constructors: ignore
+    depend_on_referenced_packages: ignore
+    constant_identifier_names: ignore

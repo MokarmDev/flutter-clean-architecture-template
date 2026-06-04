@@ -1,0 +1,14 @@
+name: feature
+description: Generates a complete Clean Architecture feature (data/domain/presentation/injection) matching this template's patterns.
+version: 0.1.0+1
+
+vars:
+  feature_name:
+    type: string
+    description: Feature name in snake_case (e.g. auth, product, order)
+    prompt: "Enter feature name (snake_case):"
+
+  entity_name:
+    type: string
+    description: Main entity name in PascalCase (e.g. Auth, Product, Order)
+    prompt: "Enter main entity name (PascalCase):"
