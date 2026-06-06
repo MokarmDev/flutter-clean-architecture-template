@@ -4,4 +4,5 @@ class StorageKeys {
   static const refreshToken = 'refresh_token';
   static const themeKey = 'theme_key';
   static const product_box = 'product_box';
+  static const batch_box = 'batch_box';
 }
