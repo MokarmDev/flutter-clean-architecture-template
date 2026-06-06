@@ -1,21 +1,19 @@
 import 'package:dartz/dartz.dart';
 
 import '../../../../core/errors/failures.dart';
-import '../../../../shared/models/pagination/pagination_params.dart';
-import '../../../../shared/use_cases/use_case.dart';
+import '../../../../shared/models/pagination/paginated_response.dart';
 import '../entities/product/product_entity.dart';
 import '../repositories/home_repository.dart';
 
-class GetProductUseCase
-    implements UseCase<List<ProductEntity>, PaginationParams> {
+class GetProductUseCase {
   final HomeRepository repository;
 
   GetProductUseCase(this.repository);
 
-  @override
-  Future<Either<Failure, List<ProductEntity>>> call([
-    PaginationParams? param,
-  ]) async {
-    return await repository.getProduct(param ?? const PaginationParams());
+  Future<Either<Failure, PaginatedResponse<ProductEntity>>> call({
+    required int page,
+    int pageSize = 10,
+  }) async {
+    return await repository.getProductPage(page: page, pageSize: pageSize);
   }
 }

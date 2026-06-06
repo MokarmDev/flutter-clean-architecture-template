@@ -231,3 +231,46 @@ class MetaEntityAdapter extends TypeAdapter<MetaEntity> {
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
+
+class CachedProductBatchAdapter extends TypeAdapter<CachedProductBatch> {
+  @override
+  final int typeId = 4;
+
+  @override
+  CachedProductBatch read(BinaryReader reader) {
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    };
+    return CachedProductBatch(
+      total: fields[0] as int,
+      skip: fields[1] as int,
+      limit: fields[2] as int,
+      products: (fields[3] as List).cast<ProductEntity>(),
+    );
+  }
+
+  @override
+  void write(BinaryWriter writer, CachedProductBatch obj) {
+    writer
+      ..writeByte(4)
+      ..writeByte(0)
+      ..write(obj.total)
+      ..writeByte(1)
+      ..write(obj.skip)
+      ..writeByte(2)
+      ..write(obj.limit)
+      ..writeByte(3)
+      ..write(obj.products);
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is CachedProductBatchAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+}

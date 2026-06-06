@@ -26,7 +26,10 @@ Future<void> initCore() async {
   Hive.registerAdapter(DimensionsEntityAdapter());
   Hive.registerAdapter(ReviewEntityAdapter());
   Hive.registerAdapter(MetaEntityAdapter());
+  Hive.registerAdapter(CachedProductBatchAdapter());
+
   await Hive.openBox<ProductEntity>(StorageKeys.product_box);
+  await Hive.openBox<CachedProductBatch>(StorageKeys.batch_box);
 
   await SharedPreferencesService.init();
   await LocalizationService.initialize();

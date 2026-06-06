@@ -27,6 +27,20 @@ class PaginatedResponse<T> {
     );
   }
 
+  factory PaginatedResponse.fromJson(
+    Map<String, dynamic> json,
+    T Function(Map<String, dynamic>) fromJsonT,
+  ) {
+    return PaginatedResponse<T>(
+      data: (json['data'] as List)
+          .map((e) => fromJsonT(e as Map<String, dynamic>))
+          .toList(),
+      total: json['total'] as int,
+      limit: json['limit'] as int,
+      skip: json['skip'] as int,
+    );
+  }
+
   // --- NEW: Page splitting helpers ---
 
   /// Splits this (batch) response into a list of individual pages.
