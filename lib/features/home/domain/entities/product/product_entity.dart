@@ -173,3 +173,21 @@ class MetaEntity extends Equatable {
   List<Object?> get props => [createdAt, updatedAt, barcode, qrCode];
 }
 
+@HiveType(typeId: 4) // assign a unique typeId
+class CachedProductBatch extends HiveObject {
+  @HiveField(0)
+  late int total;
+  @HiveField(1)
+  late int skip;
+  @HiveField(2)
+  late int limit;
+  @HiveField(3)
+  late List<ProductEntity> products;
+
+  CachedProductBatch({
+    required this.total,
+    required this.skip,
+    required this.limit,
+    required this.products,
+  });
+}

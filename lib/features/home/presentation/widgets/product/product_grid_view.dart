@@ -20,7 +20,7 @@ class ProductGridView extends StatefulWidget {
 }
 
 class _ProductGridViewState extends State<ProductGridView> {
-  static const _pageSize = 10;
+  // _pageSize is no longer needed here – the cubit owns it
   late final ScrollController _scrollController;
   bool _isLoadingMore = false;
 
@@ -35,7 +35,7 @@ class _ProductGridViewState extends State<ProductGridView> {
   }
 
   void _loadFirstPage() {
-    context.read<ProductCubit>().loadProducts(limit: _pageSize, isRefresh: true);
+    context.read<ProductCubit>().loadProducts(isRefresh: true);
   }
 
   void _scrollListener() async {
@@ -44,11 +44,13 @@ class _ProductGridViewState extends State<ProductGridView> {
 
     if (currentPosition >= 0.7 * maxScrollLength) {
       final cubit = context.read<ProductCubit>();
-      if (!_isLoadingMore && !cubit.hasReachedMax && cubit.state is! ProductLoading) {
+      if (!_isLoadingMore &&
+          !cubit.hasReachedMax &&
+          cubit.state is! ProductLoading) {
         setState(() {
           _isLoadingMore = true;
         });
-        await cubit.loadProducts(limit: _pageSize);
+        await cubit.loadProducts(); // No limit needed
         if (mounted) {
           setState(() {
             _isLoadingMore = false;
@@ -77,7 +79,9 @@ class _ProductGridViewState extends State<ProductGridView> {
           final products = cubit.products;
 
           if (state is ProductLoading && products.isEmpty) {
-            return const Center(child: LoadingWidget(message: 'Loading products...'));
+            return const Center(
+              child: LoadingWidget(message: 'Loading products...'),
+            );
           } else if (state is ProductError && products.isEmpty) {
             return Center(
               child: Column(
@@ -100,7 +104,7 @@ class _ProductGridViewState extends State<ProductGridView> {
 
           return RefreshIndicator(
             onRefresh: () async {
-              await cubit.loadProducts(limit: _pageSize, isRefresh: true);
+              await cubit.loadProducts(isRefresh: true);
             },
             child: GridView.builder(
               controller: _scrollController,
@@ -121,10 +125,7 @@ class _ProductGridViewState extends State<ProductGridView> {
                     ),
                   );
                 }
-                return ProductCard(
-                  product: products[index],
-                  onPress: () {},
-                );
+                return ProductCard(product: products[index], onPress: () {});
               },
             ),
           );

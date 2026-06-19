@@ -26,4 +26,60 @@ class PaginatedResponse<T> {
       skip: skip,
     );
   }
+
+  factory PaginatedResponse.fromJson(
+    Map<String, dynamic> json,
+    T Function(Map<String, dynamic>) fromJsonT,
+  ) {
+    return PaginatedResponse<T>(
+      data: (json['data'] as List)
+          .map((e) => fromJsonT(e as Map<String, dynamic>))
+          .toList(),
+      total: json['total'] as int,
+      limit: json['limit'] as int,
+      skip: json['skip'] as int,
+    );
+  }
+
+  // --- NEW: Page splitting helpers ---
+
+  /// Splits this (batch) response into a list of individual pages.
+  ///
+  /// Each returned [PaginatedResponse] represents one page of size [pageSize],
+  /// with correct `skip`, `limit = pageSize`, and the same `total`.
+  List<PaginatedResponse<T>> toPages(int pageSize) {
+    final pages = <PaginatedResponse<T>>[];
+    for (int i = 0; i < data.length; i += pageSize) {
+      final end = (i + pageSize).clamp(0, data.length);
+      final pageData = data.sublist(i, end);
+      pages.add(
+        PaginatedResponse<T>(
+          data: pageData,
+          total: total,
+          limit: pageSize,
+          skip: skip + i,
+        ),
+      );
+    }
+    return pages;
+  }
+
+  /// Returns a single page from this batch by its absolute page index.
+  ///
+  /// [pageIndex] is the 0‑based index of the desired page **within the whole collection**.
+  /// [pageSize]  must match the intended page size.
+  PaginatedResponse<T> pageAt(int pageIndex, int pageSize) {
+    final batchStartPage = skip ~/ pageSize; // first page index in this batch
+    final offsetInsideBatch = (pageIndex - batchStartPage) * pageSize;
+    final end = (offsetInsideBatch + pageSize).clamp(0, data.length);
+    return PaginatedResponse<T>(
+      data: data.sublist(offsetInsideBatch, end),
+      total: total,
+      limit: pageSize,
+      skip: pageIndex * pageSize,
+    );
+  }
+
+  // Convenience: total number of pages
+  int totalPages(int pageSize) => (total / pageSize).ceil();
 }

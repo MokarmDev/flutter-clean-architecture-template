@@ -1,7 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../shared/mixin/cancelable_safe_cubit_mixin.dart';
-import '../../../../../shared/models/pagination/pagination_params.dart';
 import '../../../domain/entities/product/product_entity.dart';
 import '../../../domain/usecases/get_product_usecase.dart';
 import 'product_state.dart';
@@ -14,12 +13,15 @@ class ProductCubit extends Cubit<ProductState>
   List<ProductEntity> get products => List.unmodifiable(_products);
 
   bool hasReachedMax = false;
+  int _nextPage = 0;
+  final int _pageSize = 10;
 
   ProductCubit(this.getProductUseCase) : super(ProductInitial());
 
-  Future<void> loadProducts({int limit = 10, bool isRefresh = false}) async {
+  Future<void> loadProducts({bool isRefresh = false}) async {
     if (isRefresh) {
       _products.clear();
+      _nextPage = 0;
       hasReachedMax = false;
       safeEmit(ProductInitial());
     }
@@ -33,26 +35,17 @@ class ProductCubit extends Cubit<ProductState>
     }
 
     final result = await runCancelable(
-      getProductUseCase.call(
-        PaginationParams(skip: _products.length, limit: limit),
-      ),
+      getProductUseCase.call(page: _nextPage, pageSize: _pageSize),
     );
+    if (result == null) return;
 
-    if (result == null) {
-      return;
-    }
-
-    result.fold(
-      (failure) {
-        safeEmit(ProductError(failure.message));
-      },
-      (newProducts) {
-        if (newProducts.isEmpty || newProducts.length < limit) {
-          hasReachedMax = true;
-        }
-        _products.addAll(newProducts);
-        safeEmit(ProductLoaded(List.from(_products)));
-      },
-    );
+    result.fold((failure) => safeEmit(ProductError(failure.message)), (
+      response,
+    ) {
+      _products.addAll(response.data);
+      if (!response.hasNextPage) hasReachedMax = true;
+      _nextPage++;
+      safeEmit(ProductLoaded(List.from(_products)));
+    });
   }
 }
