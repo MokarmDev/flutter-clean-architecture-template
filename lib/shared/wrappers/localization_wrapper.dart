@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 import '../../core/di/injection_container.dart';
 import '../../core/localization/localization_service.dart';
-import '../../generated/codegen_loader.g.dart';
 
 /// A wrapper to initialize [EasyLocalization] with supported locales.
 class LocalizationWrapper extends StatelessWidget {
@@ -20,7 +19,6 @@ class LocalizationWrapper extends StatelessWidget {
       supportedLocales: localizationService.supportedLocales,
       fallbackLocale: localizationService.fallbackLocale,
       startLocale: localizationService.currentLocale,
-      assetLoader: const CodegenLoader(),
       saveLocale: true,
       useOnlyLangCode: true,
       child: child,
