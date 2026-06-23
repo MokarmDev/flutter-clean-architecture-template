@@ -1,3 +1,4 @@
+export '../../design_system/design_system.dart';
 export '../wrappers/app_wrapper.dart';
 export 'custom_network_image.dart';
 export 'language_toggle_widget.dart';
