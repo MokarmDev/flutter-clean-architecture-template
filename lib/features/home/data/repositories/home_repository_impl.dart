@@ -33,7 +33,10 @@ class HomeRepositoryImpl implements HomeRepository {
         return Left(failure);
       },
       (remote) async {
-        await localDataSource.saveProducts(remote);
+        await localDataSource.saveProducts(
+          remote,
+          replace: params.skip == 0,
+        );
         return Right(remote);
       },
     );
