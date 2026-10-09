@@ -1,0 +1,63 @@
+---
+description: Cubit state management, DI lifecycle, and cancelable async
+globs:
+  - "lib/**/*_cubit.dart"
+  - "lib/**/*_state.dart"
+  - "lib/**/manager/**/*.dart"
+  - "lib/shared/mixin/**/*.dart"
+alwaysApply: false
+---
+
+# State Management
+
+## Technology
+
+Use **Cubit only** (`flutter_bloc`). Do not add Bloc event classes, Riverpod, GetX, or Provider for feature state.
+
+## State shape
+
+Manual `Equatable` hierarchy (example from `ProductState`):
+
+- `{Entity}Initial`
+- `{Entity}Loading`
+- `{Entity}Loaded` (holds data)
+- `{Entity}Error` (holds `message`)
+
+Do not use Freezed for states.
+
+## Async Cubits
+
+For network/async work, mix in `CancelableSafeCubitMixin`:
+
+```dart
+class ProductCubit extends Cubit<ProductState>
+    with CancelableSafeCubitMixin<ProductState> {
+  // runCancelable(...) + safeEmit(...)
+}
+```
+
+- `runCancelable` cancels in-flight work on close.
+- `safeEmit` avoids emit-after-close.
+- Fold `Either` in the cubit; map `failure.message` to `*Error`.
+
+## DI & provider lifecycle
+
+- Register cubits with `registerFactory` (new instance per page).
+- Register use cases/repos/data sources with `registerLazySingleton`.
+- Pages:
+
+```dart
+BlocProvider(
+  create: (_) => sl<ProductCubit>()..loadProducts(),
+  child: const ProductGridView(),
+)
+```
+
+- Never construct feature cubits with `CartCubit()` / `ProfileCubit()` — use `sl<>()`.
+- Global app cubits (e.g. `ThemeCubit`) live in `AppProviders`.
+- Use `BlocBuilder` for UI; `BlocListener` for side effects; `context.read` / `watch` as needed.
+- Debug: `AppBlocObserver` in `main_common.dart` (debug only).
+
+## Pagination pattern (`home`)
+
+Track list + `hasReachedMax`; use `PaginationParams(skip:, limit:)`; support refresh by clearing and resetting.

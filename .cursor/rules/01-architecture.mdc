@@ -1,0 +1,59 @@
+---
+description: Feature-first Clean Architecture layers and dependency rules
+globs: lib/**/*.dart
+alwaysApply: false
+---
+
+# Architecture
+
+## Dependency direction
+
+```
+presentation → domain ← data
+```
+
+- Domain: pure Dart entities, repository contracts, use cases.
+- Data: models, data sources, `RepositoryImpl`.
+- Presentation: pages, widgets, Cubit + state.
+- Shared cross-feature code lives in `lib/shared/` and `lib/core/`.
+
+## Feature layout (follow `home`)
+
+```
+features/<feature>/
+├── data/datasources/   *_remote_data_source.dart [, *_local_data_source.dart]
+├── data/models/        *_model.dart (extends entity; manual fromJson/toJson)
+├── data/repositories/  *_repository_impl.dart
+├── domain/entities/    *_entity.dart (Equatable)
+├── domain/repositories/*_repository.dart (abstract)
+├── domain/usecases/    get_*_usecase.dart
+├── presentation/manager/<entity>/  *_cubit.dart, *_state.dart
+├── presentation/pages/ *_page.dart
+├── presentation/widgets/
+└── <feature>_injection.dart
+```
+
+## Data flow
+
+`UI → Cubit → UseCase → Repository → DataSource → Either<Failure, T> → emit State`
+
+## Allowed / forbidden imports
+
+| Layer | Allowed | Forbidden |
+|-------|---------|-----------|
+| domain | Dart, equatable, dartz, Failure | Flutter UI, Dio, Hive (prefer adapters outside domain when adding new cache; existing ProductEntity Hive annotations are a known exception) |
+| data | domain, Dio/ApiConsumer, Hive, storage | flutter_bloc, widgets |
+| presentation | domain use cases/entities, flutter_bloc, UI | Dio, Hive, data sources directly |
+
+## Adding a feature
+
+1. `mason make feature --feature_name order --entity_name Order`
+2. Endpoint in `lib/core/constants/api_endpoints.dart`
+3. `initOrder()` in `lib/core/di/injection_container.dart`
+4. Route in `lib/config/routing/app_router.dart` + `route_names.dart`
+5. Wire DI: `registerLazySingleton` for repos/DS/use cases; `registerFactory` for cubits
+
+## Known deviations (do not copy for new API features)
+
+- `cart` / `profile`: stubs — incomplete wiring.
+- `theme`: local prefs without Either/`UseCase` base — acceptable only for simple local preferences.

@@ -1,0 +1,39 @@
+---
+description: Secrets, Envied, secure storage, and safe logging
+globs:
+  - "lib/config/env/**/*"
+  - "lib/core/storage/**/*.dart"
+  - "lib/core/network/**/*.dart"
+alwaysApply: false
+---
+
+# Security
+
+## Secrets & env
+
+- API values via Envied: `lib/config/env/env.dart` + `lib/config/env/.env` (`obfuscate: true`).
+- After changing `.env` or `@EnviedField`, run build_runner.
+- Never hardcode real API keys in Dart sources, rules, skills, commits messages, or chat.
+- Do not paste secret values into documentation.
+
+## Known risk
+
+`.env` is currently tracked and **not** listed in `.gitignore`. Prefer keeping only non-production placeholders in-repo; real secrets should stay out of git. Do not commit production credentials.
+
+## Storage
+
+- Tokens: `SecureStorageService` + `StorageKeys` (wired in DI; auth interceptors still stubbed).
+- Preferences / locale / theme: SharedPreferences — not for secrets.
+- Hive product cache: non-secret product data only.
+
+## Network & logging
+
+- Do not enable auth header injection with real tokens in logs.
+- Never log `Authorization`, refresh tokens, or raw `.env` contents.
+- User-facing errors must not expose stack traces or internal URLs with credentials.
+
+## Platform
+
+- Deep-link / WebView auth: not present — add with explicit redirect validation if introduced.
+- Android: exclude `FlutterSecureStorage` + `FlutterSecureStorageConfiguration` via `backup_rules.xml` (API ≤30) and `data_extraction_rules.xml` (API 31+).
+- iOS: `FlutterSecureStorage` uses `KeychainAccessibility.first_unlock_this_device` so Keychain items do not migrate to a new device.

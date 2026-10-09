@@ -1,0 +1,44 @@
+---
+description: Dart naming, imports, and style matching analysis_options
+globs: "**/*.dart"
+alwaysApply: false
+---
+
+# Dart Coding Standards
+
+Aligned with `analysis_options.yaml` (`flutter_lints` + project overrides).
+
+## Style
+
+- Prefer **single quotes** (`prefer_single_quotes`).
+- Prefer `final` locals/fields; prefer `const` where possible.
+- Prefer **relative imports** inside `lib/` (`prefer_relative_imports`).
+- No `print` — use `Logger` from `lib/core/utils/logger.dart`.
+- Keep lines ≤ ~80 characters; use trailing commas.
+- Prefer expression bodies / arrow syntax for one-liners.
+- No empty catch blocks.
+
+## Naming
+
+| Kind | Convention | Example |
+|------|------------|---------|
+| Files | snake_case | `home_repository_impl.dart` |
+| Classes | PascalCase | `HomeRepositoryImpl` |
+| Private members | `_` prefix | `_products` |
+| Booleans | auxiliary verb | `isLoading`, `hasReachedMax` |
+| Routes | `RouteNames.k{Name}Page` | `kCartPage` |
+| DI init | `init{Feature}()` | `initHome()` |
+| Use cases | `Get{Entity}UseCase` | `GetProductUseCase` |
+
+## Patterns in use
+
+- Entities/`Equatable` for value equality.
+- Manual `fromJson`/`toJson` on models (no json_serializable).
+- Cubit states: abstract base + `Initial` / `Loading` / `Loaded` / `Error` subclasses (not Freezed).
+- Mixins: `CancelableSafeCubitMixin` for cancelable async cubits.
+
+## Avoid
+
+- Freezed / sealed codegen for states unless user requests.
+- Package imports for files under `lib/` when relative works.
+- Editing generated `*.g.dart` by hand.

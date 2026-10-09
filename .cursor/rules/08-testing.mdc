@@ -1,0 +1,39 @@
+---
+description: Testing expectations for this template repository
+globs: test/**/*.dart
+alwaysApply: false
+---
+
+# Testing
+
+## Current state
+
+- Only `test/widget_test.dart` exists — default counter smoke test (does **not** match this app).
+- No `integration_test/` suite.
+- No project mocking package yet (no mockito/mocktail in `pubspec.yaml`).
+
+## When adding tests
+
+Prefer meaningful coverage over keeping the broken counter test:
+
+| Layer | What to test | Location |
+|-------|--------------|----------|
+| Domain use cases | fold success/failure with fake repos | `test/features/<f>/domain/` |
+| RepositoryImpl | `safeCall` mapping + cache fallback | `test/features/<f>/data/` |
+| Cubit | Loading → Loaded/Error; pagination flags | `test/features/<f>/presentation/` |
+| Widgets | loading/empty/error UI with BlocProvider | `test/features/<f>/` or `test/shared/` |
+
+## Conventions
+
+- Mirror `lib/` paths under `test/`.
+- Name files `*_test.dart`; describe behavior, not implementation details.
+- Fake/stub repository contracts instead of hitting Dio/Hive in unit tests.
+- If introducing mocks, add **mocktail** (or mockito) explicitly to `dev_dependencies` — do not assume it exists.
+- Do not require 100% coverage; require tests for new business logic and bug fixes when practical.
+
+## Validation commands
+
+```bash
+flutter test
+flutter analyze
+```

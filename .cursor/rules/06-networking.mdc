@@ -1,0 +1,51 @@
+---
+description: Dio ApiConsumer, repositories, models, and pagination
+globs:
+  - "lib/core/network/**/*.dart"
+  - "lib/core/constants/api_endpoints.dart"
+  - "lib/**/data/**/*.dart"
+  - "lib/shared/models/**/*.dart"
+alwaysApply: false
+---
+
+# Networking & Data
+
+## HTTP stack
+
+- Abstract: `ApiConsumer` (`get` / `post` / `patch` / `delete`).
+- Impl: `DioConsumer` — `baseUrl` from `FlavorConfig.instance.variables['baseUrl']`.
+- Interceptors: `ApiInterceptor`, `LoggingInterceptor` (`ConnectivityInterceptor` exists but is commented out).
+- Endpoints: `lib/core/constants/api_endpoints.dart`.
+- Secrets / base URL source: Envied `Env` in `lib/config/env/`.
+
+## Layer responsibilities
+
+1. **Remote data source** — call `ApiConsumer`, return parsed models/entities (raw types, not `Either`).
+2. **RepositoryImpl** — wrap remote calls with `safeCall()`; return `Either<Failure, T>`.
+3. **Models** — extend entities; manual `fromJson` / `toJson` (no json_serializable).
+4. **Local data source** (optional) — Hive or SharedPreferences.
+
+## Cache fallback (follow `home`)
+
+```dart
+final cached = localDataSource.fetchProducts();
+final result = await safeCall(() => remoteDataSource.fetchProduct(params));
+return result.fold(
+  (failure) => cached.isNotEmpty ? Right(cached) : Left(failure),
+  (remote) async {
+    await localDataSource.saveProducts(remote);
+    return Right(remote);
+  },
+);
+```
+
+## Pagination
+
+- Use `PaginationParams` from `lib/shared/models/pagination/pagination_params.dart` (what `home` uses).
+- Prefer not introducing a second params type; `PaginatedUseCase` exists but is unused — only adopt if you migrate consistently.
+
+## Anti-patterns
+
+- Returning `Either` from remote data sources (cart/profile stubs) — wrap in the repository instead.
+- Calling Dio directly from Cubits or pages.
+- Hardcoding base URLs outside Envied / FlavorConfig.

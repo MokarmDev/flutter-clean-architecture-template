@@ -1,0 +1,43 @@
+---
+description: Either Failure mapping, safeCall, and UI error presentation
+globs:
+  - "lib/core/errors/**/*.dart"
+  - "lib/core/utils/safe_call.dart"
+  - "lib/**/*_repository*.dart"
+  - "lib/**/*_cubit.dart"
+alwaysApply: false
+---
+
+# Error Handling & Logging
+
+## Typed errors
+
+Flow: catch at repository → `Either<Failure, T>` → fold in Cubit → UI state.
+
+- Use cases return `Future<Either<Failure, T>>` via `UseCase<T, Param>`.
+- Repositories wrap risky work with `safeCall` (`lib/core/utils/safe_call.dart`).
+- `safeCall` maps: `DioException` → `failureFromDioException`; `FormatException` → `ServerFailure`; other → `ServerFailure`.
+
+## Failure types (`lib/core/errors/failures.dart`)
+
+`ServerFailure`, `NetworkFailure`, `CacheFailure` / `CacheNotFoundFailure`, `AuthFailure` / `TokenExpiredFailure` / `UnauthorizedFailure`, `ValidationFailure` (optional `fieldErrors`).
+
+Prefer existing types; extend the hierarchy only when a new domain category is needed.
+
+## Layers
+
+| Layer | Role |
+|-------|------|
+| Technical | Dio/Hive exceptions caught in `safeCall` / data sources |
+| Domain | `Failure` messages — user-safe, no secrets |
+| UI | `*Error(message)` + Retry; empty via dedicated widgets |
+
+## Logging
+
+- Use `Logger` from `lib/core/utils/logger.dart`.
+- Never log tokens, API keys, passwords, or PII.
+- Network logging interceptor is for debug — do not log auth headers with secrets.
+
+## Theme exception
+
+`ThemeCubit` uses try/catch + emit (no Either). Keep that local to preference features; API features must use Either.

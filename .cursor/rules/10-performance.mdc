@@ -1,0 +1,39 @@
+---
+description: Rebuild, list, image, and cache performance practices
+globs: lib/**/*.dart
+alwaysApply: false
+---
+
+# Performance
+
+Based on patterns already used in `home` and shared widgets.
+
+## Widgets
+
+- Prefer `const` widgets to limit rebuilds.
+- Split large `build` methods into small widgets.
+- Use `BlocBuilder` with `buildWhen` when only a slice of state should rebuild.
+
+## Lists & pagination
+
+- Use builders (`ListView.builder`, grids) — not eagerly built long `Column` children.
+- Paginate with `PaginationParams` and `hasReachedMax` (see `ProductCubit`).
+- Cancel in-flight loads via `CancelableSafeCubitMixin` when leaving the page.
+
+## Images & assets
+
+- Remote: `cached_network_image` via shared widgets.
+- Static: asset/font declarations in `pubspec.yaml`.
+- Always provide error/placeholder handling for network images.
+
+## Network & cache
+
+- Prefer cache-fallback (home) for resilience and fewer blank screens offline.
+- Avoid duplicate simultaneous fetches for the same resource without cancellation.
+- Keep Hive boxes scoped; do not open unbounded caches.
+
+## Avoid
+
+- Heavy work in `build()`.
+- Unbounded `setState` / emit loops.
+- Loading full remote lists when pagination exists.
