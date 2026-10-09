@@ -1,0 +1,41 @@
+---
+description: go_router shell navigation and route naming
+globs:
+  - "lib/config/routing/**/*.dart"
+  - "lib/root.dart"
+  - "lib/shared/navigation/**/*.dart"
+alwaysApply: false
+---
+
+# Navigation
+
+## Solution
+
+**go_router only** — do not introduce auto_route or GetX navigation.
+
+## Structure
+
+- Router: `lib/config/routing/app_router.dart` (`final router = GoRouter(...)`).
+- Names/paths: `lib/config/routing/route_names.dart` — `RouteNames.k{Name}Page`.
+- Shell: `StatefulShellRoute.indexedStack` → `RootPage` + bottom nav.
+- Tab metadata: `NavEnum` + `CustomBottomNavBar` in `lib/shared/navigation/`.
+
+## Current tabs
+
+| Path constant | Path | Page |
+|---------------|------|------|
+| `kRootPage` | `/` | `HomePage` |
+| `kCartPage` | `/cart` | `CartPage` |
+| `kProfilePage` | `/profile` | `ProfilePage` |
+
+## Adding a route
+
+1. Add constant to `RouteNames`.
+2. Add `GoRoute` (or new shell branch if a tab).
+3. Update `NavEnum` / bottom nav if it is a tab.
+4. Prefer named routes via go_router `name` for deep links later.
+
+## Responsibilities
+
+- Navigation belongs in UI / listeners — not in repositories or data sources.
+- Auth redirects/guards are **not** implemented yet; add only when auth is built, keeping logic in the router layer.

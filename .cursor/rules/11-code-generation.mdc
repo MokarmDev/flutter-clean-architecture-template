@@ -1,0 +1,43 @@
+---
+description: build_runner, Envied, Hive, and locale key generation
+globs:
+  - "lib/config/env/**/*"
+  - "lib/**/*.g.dart"
+  - "pubspec.yaml"
+  - "mason.yaml"
+alwaysApply: false
+---
+
+# Code Generation
+
+## Tools in this project
+
+| Tool | Purpose | Source | Output |
+|------|---------|--------|--------|
+| Envied | Secrets/config | `lib/config/env/env.dart` + `.env` | `env.g.dart` |
+| Hive generator | Type adapters | `@HiveType` entities | `*.g.dart` (e.g. `product_entity.g.dart`) |
+| easy_localization generate | Locale keys | `assets/translations/` | `lib/generated/locale_keys.g.dart` |
+| Mason | Feature scaffold | `bricks/feature` | feature folder under `lib/features/` |
+
+**Not used:** Freezed, json_serializable, injectable, retrofit, auto_route, riverpod_generator.
+
+## Commands
+
+```bash
+# Envied + Hive
+dart run build_runner build --delete-conflicting-outputs
+
+# Locale keys (after editing JSON translations)
+dart run easy_localization:generate --source-dir ./assets/translations -f keys -o locale_keys.g.dart
+
+# New feature scaffold
+mason get
+mason make feature --feature_name order --entity_name Order
+```
+
+## Agent rules
+
+- **Never hand-edit** `*.g.dart` or `locale_keys.g.dart`.
+- After changing annotated classes or `.env`, regenerate before analyzing.
+- `bricks/**` is excluded from the analyzer — edit brick templates carefully; do not treat generated brick output as production until wired (DI, routes, endpoints).
+- `flutter_gen` is configured in `pubspec.yaml` but asset codegen is not the primary workflow — prefer existing shared widgets/assets patterns.

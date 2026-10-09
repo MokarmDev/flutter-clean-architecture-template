@@ -1,0 +1,48 @@
+---
+description: Flutter UI, theming, localization, and shared widgets
+globs:
+  - "lib/**/presentation/**/*.dart"
+  - "lib/shared/widgets/**/*.dart"
+  - "lib/config/theme/**/*.dart"
+  - "lib/my_app.dart"
+alwaysApply: false
+---
+
+# Flutter UI
+
+## Structure
+
+- Pages: `presentation/pages/*_page.dart` — provide Cubit via `BlocProvider` + `sl<>()`.
+- Feature widgets under `presentation/widgets/`.
+- Prefer small private `StatelessWidget` classes over `Widget _build...` methods.
+- Use `const` constructors where possible.
+
+## Theming
+
+- Theme from `lib/config/theme/` (`AppTheme`, `AppColors`, `AppTextTheme`, `AppFonts`).
+- Font family: `TheYearofHandicrafts`.
+- Use `Theme.of(context).textTheme.titleLarge` (Material 3 names).
+- Theme toggle: `ThemeCubit` via `AppProviders` (global).
+
+## Responsive & assets
+
+- `flutter_screenutil`: `.w`, `.h`, `.sp`.
+- Remote images: `CustomNetworkImage` / `cached_network_image` — always handle errors.
+- Shared UI: `lib/shared/widgets/` (`NoDataFoundWidget`, shimmers, toggles).
+
+## Localization
+
+- No hardcoded user-facing strings.
+- Use `easy_localization` + generated `LocaleKeys` (`lib/generated/locale_keys.g.dart`).
+- Translation JSON: `assets/translations/en.json`, `ar.json`.
+
+## State UI patterns (follow `home`)
+
+- Loading: shimmer / loading widgets (`ProductCardShimmer`, shared shimmers).
+- Empty: `NoDataFoundWidget`.
+- Error: inline message + Retry (not SnackBars by default).
+- Lists: `ListView.builder` / grid builders; pull-to-refresh with `RefreshIndicator` where lists exist.
+
+## Forms
+
+- Set `textCapitalization`, `keyboardType`, `textInputAction` on `TextField`s.

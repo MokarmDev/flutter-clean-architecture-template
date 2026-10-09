@@ -33,7 +33,13 @@ Future<void> initCore() async {
   sl.registerLazySingleton(() => SharedPreferencesService());
   sl.registerLazySingleton(() => LocalizationService());
   sl.registerLazySingleton(
-    () => SecureStorageService(const FlutterSecureStorage()),
+    () => SecureStorageService(
+      const FlutterSecureStorage(
+        iOptions: IOSOptions(
+          accessibility: KeychainAccessibility.first_unlock_this_device,
+        ),
+      ),
+    ),
   );
 
   initTheme();

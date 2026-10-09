@@ -1,0 +1,20 @@
+---
+description: Minimal git guidance — no invented branch policy
+alwaysApply: false
+---
+
+# Git Workflow
+
+This repository has **no** CONTRIBUTING.md, commitlint, husky, or branch naming docs.
+
+## Do
+
+- Follow the user's explicit commit / PR instructions.
+- Keep commits focused; do not mix unrelated refactors with features.
+- Never commit real production secrets. Prefer placeholders in `lib/config/env/.env`.
+- Do not update git config, force-push, or amend unless the user explicitly asks (and safety rules allow).
+
+## Do not invent
+
+- Do not invent required branch prefixes, ticket IDs, or changelog processes.
+- Do not create commits unless the user asks.
