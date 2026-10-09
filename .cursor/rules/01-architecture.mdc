@@ -47,7 +47,7 @@ features/<feature>/
 
 ## Adding a feature
 
-1. `mason make feature --feature_name order --entity_name Order`
+1. Ask approval, then `mason make feature --feature_name order --entity_name Order`
 2. Endpoint in `lib/core/constants/api_endpoints.dart`
 3. `initOrder()` in `lib/core/di/injection_container.dart`
 4. Route in `lib/config/routing/app_router.dart` + `route_names.dart`
