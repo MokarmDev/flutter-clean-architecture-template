@@ -30,7 +30,7 @@ dart run build_runner build --delete-conflicting-outputs
 # Locale keys (after editing JSON translations)
 dart run easy_localization:generate --source-dir ./assets/translations -f keys -o locale_keys.g.dart
 
-# New feature scaffold
+# New feature scaffold (ask approval first — may overwrite)
 mason get
 mason make feature --feature_name order --entity_name Order
 ```
