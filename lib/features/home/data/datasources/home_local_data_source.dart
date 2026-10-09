@@ -6,7 +6,13 @@ import '../models/product/product_model.dart';
 
 abstract class HomeLocalDataSource {
   List<ProductEntity> fetchProducts();
-  Future<void> saveProducts(List<ProductEntity> products);
+
+  /// Persists [products]. When [replace] is true (first page / refresh),
+  /// clears the box first so pagination does not accumulate duplicates.
+  Future<void> saveProducts(
+    List<ProductEntity> products, {
+    bool replace = false,
+  });
 }
 
 class HomeLocalDataSourceImpl implements HomeLocalDataSource {
@@ -20,9 +26,15 @@ class HomeLocalDataSourceImpl implements HomeLocalDataSource {
   }
 
   @override
-  Future<void> saveProducts(List<ProductEntity> products) async {
+  Future<void> saveProducts(
+    List<ProductEntity> products, {
+    bool replace = false,
+  }) async {
     final productBox = Hive.box<ProductEntity>(StorageKeys.product_box);
-    productBox.addAll(
+    if (replace) {
+      await productBox.clear();
+    }
+    await productBox.addAll(
       products.map((e) => (e as ProductModel).toEntity()).toList(),
     );
   }
