@@ -33,7 +33,10 @@ final result = await safeCall(() => remoteDataSource.fetchProduct(params));
 return result.fold(
   (failure) => cached.isNotEmpty ? Right(cached) : Left(failure),
   (remote) async {
-    await localDataSource.saveProducts(remote);
+    await localDataSource.saveProducts(
+      remote,
+      replace: params.skip == 0, // clear on first page / refresh
+    );
     return Right(remote);
   },
 );
