@@ -1,0 +1,16 @@
+---
+description: Dart formatting, analyzer, naming, and maintainability rules
+globs: "**/*.dart"
+alwaysApply: false
+---
+
+# Dart conventions
+
+- Follow `analysis_options.yaml` and the style of neighboring files. The repository currently enables Flutter lints and rules including single quotes, avoiding `print`, avoiding empty catches, preferring `const`, and preferring final locals/fields.
+- Run `dart format` on changed Dart files when possible.
+- Prefer clear names and small functions; avoid speculative abstractions and unnecessary comments that merely restate the code.
+- Handle errors intentionally. Never swallow exceptions in an empty `catch`.
+- Do not use `print` for application logging. Reuse an existing logging approach if one exists; do not introduce a logger package without approval.
+- Use relative imports where consistent with the repository's analyzer configuration.
+- Do not edit generated files by hand. Identify the generator and regenerate using the repository's documented command, after approval if generation could modify many files.
+- Do not change analyzer rules simply to silence new warnings. Explain the issue and request approval before relaxing project-wide analysis.
