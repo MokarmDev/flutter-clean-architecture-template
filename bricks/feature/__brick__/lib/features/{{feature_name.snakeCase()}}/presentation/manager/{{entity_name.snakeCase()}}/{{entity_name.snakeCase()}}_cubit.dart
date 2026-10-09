@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../../../shared/mixin/cancelable_safe_cubit_mixin.dart';
+import '../../../../../shared/mixin/cancelable_safe_cubit_mixin.dart';
 import '../../../domain/usecases/get_{{entity_name.snakeCase()}}s_usecase.dart';
 import '{{entity_name.snakeCase()}}_state.dart';
 
