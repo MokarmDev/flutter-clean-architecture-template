@@ -8,13 +8,14 @@ alwaysApply: false
 
 ## Current state
 
-- Only `test/widget_test.dart` exists — default counter smoke test (does **not** match this app).
+- `test/widget_test.dart` — smoke test for `NoDataFoundWidget` (not full `MyApp`).
+- Home boundary tests under `test/features/home/` (use case, repository cache fallback, cubit).
 - No `integration_test/` suite.
-- No project mocking package yet (no mockito/mocktail in `pubspec.yaml`).
+- No project mocking package yet (no mockito/mocktail in `pubspec.yaml`) — use hand-written fakes.
 
 ## When adding tests
 
-Prefer meaningful coverage over keeping the broken counter test:
+Prefer meaningful coverage. Replace the broken counter `widget_test.dart` only when the task explicitly includes tests or that file:
 
 | Layer | What to test | Location |
 |-------|--------------|----------|
