@@ -48,7 +48,7 @@ UI; `BlocListener` for one-off side effects.
 
 | State | UI |
 |-------|-----|
-| Loading | shimmer / loading widget |
+| Loading | `LoadingWidget` (home pattern); `ProductCardShimmer` exists but unused |
 | Empty | `NoDataFoundWidget` |
 | Error | message + Retry calling cubit method |
 | Loaded | list/grid builders |
@@ -72,7 +72,7 @@ flutter analyze
 
 ## Validation
 
-- [ ] No hardcoded user-facing English/Arabic in widgets
+- [ ] Prefer `LocaleKeys` for new user-facing strings (do not copy home's remaining hardcoded strings)
 - [ ] const where possible
 - [ ] Matches home empty/error/loading approach
 

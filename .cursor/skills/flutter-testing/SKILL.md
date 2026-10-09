@@ -58,7 +58,7 @@ flutter analyze
 
 ## Project-Specific Rules
 
-- Fix or remove counter expectations in `test/widget_test.dart` when touching tests
+- Fix or replace `test/widget_test.dart` only when the task explicitly includes tests or that file
 - Do not require integration_test unless user asks
 - Keep tests independent of real network
 

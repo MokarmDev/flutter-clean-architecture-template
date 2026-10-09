@@ -28,6 +28,8 @@ alwaysApply: false
 | `kCartPage` | `/cart` | `CartPage` |
 | `kProfilePage` | `/profile` | `ProfilePage` |
 
+Note: `RouteNames.kHomePage` (`/home`) exists but is unused; the shell home tab uses `kRootPage`.
+
 ## Adding a route
 
 1. Add constant to `RouteNames`.

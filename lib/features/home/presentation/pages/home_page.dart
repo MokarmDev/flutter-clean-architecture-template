@@ -11,7 +11,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => sl<ProductCubit>()..loadProducts(),
+      create: (context) => sl<ProductCubit>()..loadProducts(limit: 10),
       child: const ProductGridView(),
     );
   }

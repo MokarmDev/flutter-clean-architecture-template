@@ -1,0 +1,18 @@
+---
+description: Core project context and non-negotiable behavior for this Flutter template
+alwaysApply: true
+---
+
+# Project baseline
+
+- This repository is a Flutter/Dart template. Read the local `README.md`, `pubspec.yaml`, relevant source files, and tests before making implementation decisions.
+- Preserve the repository's existing feature-first Clean Architecture: `presentation` depends inward on `domain`; `data` implements domain contracts; `domain` must remain pure Dart and must not depend on Flutter UI, networking, or dependency-injection frameworks. Do not add new Hive annotations on domain — `home` `ProductEntity` is a known exception (see `01-architecture.mdc` / `14-architecture-boundaries.mdc`).
+- Follow the patterns already used by the `home` feature before creating or changing a feature.
+- The documented baseline includes Cubit/BLoC, GetIt, GoRouter, Dio, Hive, `Either<Failure, T>` via `dartz`, `safeCall`, flavors, `easy_localization`, and Mason. Verify actual usage in source before relying on any specific API or helper.
+- Detailed stack rules live in `00-project-overview.mdc` and `01`–`13` / `14`. Generic skills under `.cursor/skills/` are approval wrappers that defer to matching `flutter-*` skills.
+- Prefer the existing project solution over introducing a new abstraction, package, state-management approach, or architecture style.
+- Do not invent files, classes, methods, dependency registrations, routes, endpoint constants, localization keys, or generated-code APIs. Inspect the source first.
+- Keep changes scoped to the requested task. Do not perform unrelated cleanup or broad refactoring.
+- Explain material assumptions. If source code contradicts documentation, follow the implementation and report the discrepancy.
+- Do not claim a command or test passed unless it was actually run and its result inspected.
+- Use concise, actionable progress updates and finish with a summary of files changed, checks run, outcomes, and remaining risks.

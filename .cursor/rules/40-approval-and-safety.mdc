@@ -1,0 +1,25 @@
+---
+description: Approval gates for architecture, dependencies, destructive actions, and sensitive configuration
+alwaysApply: true
+---
+
+# Approval gates
+
+Proceed without asking for routine, reversible edits that are clearly inside the user's request.
+
+Pause and ask the user before:
+- Adding, removing, or upgrading dependencies or changing `pubspec.yaml` / `pubspec.lock`.
+- Changing architecture boundaries, state-management strategy, dependency-injection strategy, routing strategy, or public APIs.
+- Deleting or renaming files, bulk-generating files, or running commands that may overwrite or remove user work.
+- Changing flavors, build configuration, CI/CD, signing, permissions, platform manifests, or release configuration.
+- Changing secrets handling, authentication/security-sensitive behavior, or environment configuration.
+- Running destructive commands, database/data migrations, force operations, or commands with unclear side effects.
+- Making a broad refactor beyond the task's stated scope.
+
+Before requesting approval, explain:
+1. What change is proposed.
+2. Why it is needed.
+3. Which files/packages/systems may be affected.
+4. The safer alternative, if one exists.
+
+Never expose secrets in output, commit secrets, or replace real environment values with guessed values. Do not silently alter existing user changes. Inspect `git status` before any operation that might overwrite files.

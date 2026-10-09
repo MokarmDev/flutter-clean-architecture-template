@@ -344,7 +344,10 @@ A: Yes, if the feature already exists. Mason will ask for confirmation before ov
 A: Delete the feature folder manually and re-run the command.
 
 **Q: Can I add a Local Data Source?**  
-A: The current template generates Remote only. Use `home_local_data_source.dart` in the `home` feature as a reference.
+A: The current template generates Remote only (no pagination/Hive). Use `home_local_data_source.dart` in the `home` feature as a reference.
+
+**Q: Is the generated Cubit import path correct?**  
+A: Yes — it should use five `../` segments to reach `lib/shared/mixin/` (same depth as `home`'s `ProductCubit`). If analysis fails on the mixin import after generation, compare against `lib/features/home/presentation/manager/product/product_cubit.dart`.
 
 **Q: Why do I see red errors in VS Code inside the `bricks/` folder?**  
 A: This is expected — template files contain `{{}}` Mustache syntax which is not valid Dart. This is already handled via `analysis_options.yaml` with `exclude: ['bricks/**']`.

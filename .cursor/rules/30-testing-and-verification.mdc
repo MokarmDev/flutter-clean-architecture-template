@@ -1,0 +1,17 @@
+---
+description: Required verification practices for Flutter and Dart changes
+globs: "lib/**/*.dart, test/**/*.dart, bricks/**"
+alwaysApply: false
+---
+
+# Testing and verification
+
+- Inspect existing test conventions and test helpers before writing tests.
+- Add or update tests for behavior changes, including relevant success, failure, loading, and edge cases.
+- Keep unit tests focused on one behavior. Mock/fake only the boundaries required by the existing test style.
+- Do not assert implementation details when behavior can be tested instead.
+- Use the repository's existing test dependencies and patterns. Do not add a testing package without approval.
+- Run the narrowest relevant tests first, then broader checks where practical.
+- The documented baseline test command is `flutter test`. Use `flutter analyze` and `dart format` for relevant verification where available.
+- If a command cannot run, report the exact reason. Never describe an unrun check as passing.
+- If a test exposes an unrelated pre-existing failure, distinguish it from failures introduced by the change.

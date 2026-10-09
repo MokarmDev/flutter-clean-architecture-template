@@ -1,0 +1,15 @@
+---
+description: Use the repository's Mason feature brick and code generation safely
+globs: "bricks/**, mason.yaml, mason-lock.json, lib/**/*.dart"
+alwaysApply: false
+---
+
+# Scaffolding and generated code
+
+- For a new feature, inspect `mason.yaml`, the existing brick under `bricks/`, and the generated output pattern before deciding whether Mason applies.
+- The documented command is `mason make feature --feature_name <name> --entity_name <Entity>`. Verify the brick's current variables and constraints before running it.
+- Never assume generated output is correct without reviewing it against the existing `home` feature.
+- Ask for approval before bulk generation or any command that could overwrite existing files.
+- Follow the repository's documented `build_runner` command when generated code needs updating; inspect the diff afterward.
+- Do not manually modify generated files if they can be regenerated from source definitions.
+- If Mason's output is stale or conflicts with current architecture, report the mismatch and propose a scoped fix before changing the brick itself.

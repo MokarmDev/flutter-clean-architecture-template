@@ -29,9 +29,6 @@ class _ProductGridViewState extends State<ProductGridView> {
     super.initState();
     _scrollController = ScrollController();
     _scrollController.addListener(_scrollListener);
-
-    // Initial fetch
-    _loadFirstPage();
   }
 
   void _loadFirstPage() {

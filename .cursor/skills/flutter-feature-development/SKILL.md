@@ -31,7 +31,10 @@ copying cart/profile stubs.
 
 Compare `home` (full) vs target needs. Note pagination/cache only if required.
 
-### Step 2 — Scaffold
+### Step 2 — Scaffold (approval required)
+
+Ask for approval before running Mason or any command that may overwrite files.
+Then:
 
 ```bash
 mason get
@@ -73,7 +76,7 @@ Regenerate code if Hive/Envied annotations were added.
 
 ## Validation
 
-- [ ] Domain has no Dio/Flutter UI imports (Hive on entity only if caching like home)
+- [ ] Domain has no Dio/Flutter UI imports (do not add new Hive annotations on domain; home `ProductEntity` is a known exception — prefer adapters outside domain for new cache)
 - [ ] DI: factory cubit, lazy singleton use case/repo/DS
 - [ ] Route registered
 - [ ] Analyze clean for touched files

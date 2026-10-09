@@ -23,7 +23,7 @@ Platforms in repo: **Android + iOS** only (no web/desktop folders).
 ## Source of truth
 
 1. **Reference feature:** `lib/features/home/` (pagination, Hive cache fallback, `CancelableSafeCubitMixin`).
-2. **Scaffold new features** with Mason: `mason make feature` (see `bricks/BRICKS_GUIDE.md`).
+2. **Scaffold new features** with Mason after approval: `mason make feature` (see `bricks/BRICKS_GUIDE.md`).
 3. Do **not** copy stub patterns from `cart` / `profile` (UnimplementedError, manual `Cubit()` construction).
 4. `theme` is a known local-only exception (SharedPreferences; no Either) — do not generalize it to API features.
 
