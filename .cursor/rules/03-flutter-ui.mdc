@@ -32,13 +32,13 @@ alwaysApply: false
 
 ## Localization
 
-- No hardcoded user-facing strings.
-- Use `easy_localization` + generated `LocaleKeys` (`lib/generated/locale_keys.g.dart`).
+- Prefer `easy_localization` + generated `LocaleKeys` (`lib/generated/locale_keys.g.dart`) for new UI strings.
 - Translation JSON: `assets/translations/en.json`, `ar.json`.
+- Note: `home` still has a few hardcoded strings (`Loading products...`, `Retry`); do not copy that for new UI.
 
 ## State UI patterns (follow `home`)
 
-- Loading: shimmer / loading widgets (`ProductCardShimmer`, shared shimmers).
+- Loading: `LoadingWidget` (what `home` uses today). `ProductCardShimmer` exists but is unused — wire it only if you need card-shaped placeholders.
 - Empty: `NoDataFoundWidget`.
 - Error: inline message + Retry (not SnackBars by default).
 - Lists: `ListView.builder` / grid builders; pull-to-refresh with `RefreshIndicator` where lists exist.
