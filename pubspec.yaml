@@ -30,6 +30,7 @@ dependencies:
   intl: ^0.20.2
   logger: ^2.7.0
   shared_preferences: ^2.5.4
+  shared_preferences_android: ^2.4.28
   shimmer: ^3.0.0
   hive: ^2.2.3
   hive_flutter: ^1.1.0
